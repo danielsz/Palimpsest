@@ -51,40 +51,37 @@
 (defun move-region-to-rebuts (start end)
   "Move selected text to associated rebuts buffer"
   (interactive "r")
-  (let (
-	(rebuts-file (concat (file-name-sans-extension (buffer-file-name)) ".rebuts.txt"))
-	(rebuts-buffer (concat (file-name-sans-extension (buffer-name)) ".rebuts.txt"))
-	(oldbuf (current-buffer))
-     )
-  (save-excursion
-   (if (file-exists-p rebuts-file) (find-file rebuts-file))
-   (set-buffer (get-buffer-create rebuts-buffer))
-   (set-visited-file-name rebuts-file)
-   (goto-char (point-max))
-   (insert-buffer-substring oldbuf start end)
-   (newline)
-   (save-buffer)
-  )
-   (kill-region start end)
-   (switch-to-buffer oldbuf)
- ))
+  (if buffer-file-truename 
+      (let (
+	    (rebuts-file (concat (file-name-sans-extension (buffer-file-name)) ".trash"))
+	    (rebuts-buffer (concat (file-name-sans-extension (buffer-name)) ".trash"))
+	    (oldbuf (current-buffer)))
+	(save-excursion
+	  (if (file-exists-p rebuts-file) (find-file rebuts-file))
+	  (set-buffer (get-buffer-create rebuts-buffer))
+	  (set-visited-file-name rebuts-file)
+	  (goto-char (point-max))
+	  (insert-buffer-substring oldbuf start end)
+	  (newline)
+	  (save-buffer))
+	(kill-region start end)
+	(switch-to-buffer oldbuf))
+    (message "Please save file first."))) 
 
 ;; Custom move region to bottom 
 (defun move-region-to-bottom (start end)
   "Move selected text to bottom of buffer"
   (interactive "r")
-  (let (
-	(count (count-lines-region start end))
-	)
-    (save-excursion
-      (kill-region start end)
-      (goto-char (point-max))
-      (yank)
-      (newline)
-      )
-    (push-mark (point))
-    (message "Moved a %s" count)
-    ))
+  (if (use-region-p) 
+      (let ((count (count-words-region start end)))
+	(save-excursion
+	  (kill-region start end)
+	  (goto-char (point-max))
+	  (yank)
+	  (newline))
+	(push-mark (point))
+	(message "Moved %s words" count))
+    (message "No region selected")))
 
 (defgroup palimpsest nil
   "Customization group for `palimpsest-mode'.")
@@ -107,7 +104,7 @@ option `scroll-bar-mode'."
   :lighter " Palimpsest"
   ;; The minor mode bindings.
   :keymap palimpsest-mode-keymap
-  :global t
+  :global nil
   :group 'palimpsest)
 
 (provide 'palimpest-mode)
