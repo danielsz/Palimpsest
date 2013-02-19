@@ -1,11 +1,23 @@
 ;;; palimpsest-mode.el --- Various deletion strategies when editing
-;;; text that eludes total oblivion. Implemented as a minor mode.
+;;; text that should elude total oblivion. Implemented as a minor mode.
 
 ;; Copyright (C) 2013 Daniel Szmulewicz <http://about.me/daniel.szmulewicz>
 
 ;; Author: Daniel Szmulewicz <daniel.szmulewicz@gmail.com>
 
-;;; Commentary:
+;; Version: 0.8
+
+;;; Documentation:
+;;
+;; This minor mode provides several strategies to remove text without
+;; permanently deleting it, useful to prose / fiction writers.
+;; Namely, it provides the following capabilities:
+;;
+;; - Send selected text to the bottom of the file
+;; - Send selected text to a trash file
+;;
+
+;;; Legal:
 ;;
 ;; This file is NOT part of GNU Emacs.
 ;;
@@ -27,24 +39,6 @@
 ;; See <http://www.gnu.org/licenses/> for a copy of the GNU General
 ;; Public License.
 
-
-;;; Documentation:
-;;
-;; This minor mode provides several strategies to remove text without
-;; permanently deleting it, useful to prose / fiction writers.
-;; Namely, it provides the following capabilities:
-;;
-
-;; Known bugs or limitations:
-
-;; - if several {style}, [lang] or (class) attributes are given for
-;;       the same block, only the first one of each type will be
-;;       highlighted.
-;;
-;; - some complex imbrications of inline markup and attributes are
-;;       not well-rendered (for example, *strong *{something}notstrong*)
-;;
-;; Version: 0.8
 
 ;;; Code:
 
@@ -90,7 +84,7 @@
 	  (write-file buffer-file-truename))	
 	(kill-region start end)
 	(switch-to-buffer oldbuf))
-    (message "Please save file first."))) 
+    (message "Please save buffer first."))) 
 
 ;; Custom move region to bottom 
 (defun move-region-to-bottom (start end)
