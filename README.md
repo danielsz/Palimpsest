@@ -25,13 +25,11 @@ Nothing to do.
 
 ### Installing manually
 
-Just put the palimpsest.el anywhere on your load path (or load the file manually), and that's it. **M-x palimpsest-mode**
+Just put the palimpsest.el anywhere on your load path (or load the file manually). `M-x palimpsest-mode` will toggle it on or off.
 
 If you want palimpsest to load automatically with your text files, andd the following in your init file. 
 
-     ```emacs
 	 (add-hook 'text-mode-hook 'palimpsest-mode)
-	 ```
 	
 ## Usage
 
