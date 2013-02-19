@@ -29,9 +29,9 @@ Just put the palimpsest.el anywhere on your load path (or load the file manually
 
 If you want palimpsest to load automatically with your text files, andd the following in your init file. 
 
-    ```elisp
-	(add-hook 'text-mode-hook 'palimpsest-mode)
-	```
+     ```emacs
+	 (add-hook 'text-mode-hook 'palimpsest-mode)
+	 ```
 	
 ## Usage
 
