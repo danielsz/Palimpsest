@@ -29,13 +29,14 @@ Just put the palimpsest.el anywhere on your load path (or load the file manually
 
 If you want palimpsest to load automatically with your text files, andd the following in your init file. 
 
-    #elisp
+    ```elisp
 	(add-hook 'text-mode-hook 'palimpsest-mode)
+	```
 	
 ## Usage
 
-C-c C-r: Send selected text to the bottom 
-C-c C-q: Send selected text to trash file
+- C-c C-r: Send selected text to the bottom 
+- C-c C-q: Send selected text to trash file
 
 ## Configuration
 
