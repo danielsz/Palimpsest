@@ -44,26 +44,50 @@
 ;; - some complex imbrications of inline markup and attributes are
 ;;       not well-rendered (for example, *strong *{something}notstrong*)
 ;;
-
+;; Version: 0.8
 
 ;;; Code:
 
-(defun move-region-to-rebuts (start end)
-  "Move selected text to associated rebuts buffer"
+(defgroup palimpsest nil
+  "Customization group for `palimpsest-mode'.")
+
+(defcustom palimpsest-bottom-key ""
+  "Keybinding to send selected text to bottom of the file. Defaults to C-c C-r"
+  :group 'palimpsest
+  :type '(restricted-sexp :match-alternatives (stringp vectorp)))
+
+(defcustom palimpsest-trash-key "" 
+  "Keybinding to send selected text to the trash. Defaults to C-c C-q"
+  :group 'palimpsest
+  :type '(restricted-sexp :match-alternatives (stringp vectorp)))
+
+(defcustom palimpsest-trash-file-suffix ".trash"
+  "This is the suffix for the trash filename"
+  :group 'palimpsest
+  :type '(string))
+
+(defconst palimpsest-keymap (make-sparse-keymap) "Keymap used in palimpsest mode")
+
+(define-key palimpsest-keymap palimpsest-bottom-key 'move-region-to-bottom)
+(define-key palimpsest-keymap palimpsest-trash-key 'move-region-to-trash)
+
+(defun move-region-to-trash (start end)
+  "Move selected text to associated trash buffer"
   (interactive "r")
   (if buffer-file-truename 
       (let (
-	    (rebuts-file (concat (file-name-sans-extension (buffer-file-name)) ".trash"))
-	    (rebuts-buffer (concat (file-name-sans-extension (buffer-name)) ".trash"))
+	    (trash-file (concat (file-name-sans-extension (buffer-file-name)) palimpsest-trash-file-suffix  "." (file-name-extension (buffer-file-name))))
+	    (trash-buffer (concat (file-name-sans-extension (buffer-name)) palimpsest-trash-file-suffix "." (file-name-extension (buffer-file-name))))
 	    (oldbuf (current-buffer)))
 	(save-excursion
-	  (if (file-exists-p rebuts-file) (find-file rebuts-file))
-	  (set-buffer (get-buffer-create rebuts-buffer))
-	  (set-visited-file-name rebuts-file)
-	  (goto-char (point-max))
+	  (if (file-exists-p trash-file) (find-file trash-file))
+	  (set-buffer (get-buffer-create trash-buffer))
+	  (set-visited-file-name trash-file)
+	  (goto-char (point-min))
 	  (insert-buffer-substring oldbuf start end)
 	  (newline)
-	  (save-buffer))
+	  (save-buffer)
+	  (write-file buffer-file-truename))	
 	(kill-region start end)
 	(switch-to-buffer oldbuf))
     (message "Please save file first."))) 
@@ -83,19 +107,13 @@
 	(message "Moved %s words" count))
     (message "No region selected")))
 
-(defgroup palimpsest nil
-  "Customization group for `palimpsest-mode'.")
 
-(defconst palimpsest-mode-keymap (make-sparse-keymap) "Keymap used in palimpsest mode")
-
-(define-key palimpsest-mode-keymap (kbd "C-M-z") 'move-region-to-bottom)
-(define-key palimpsest-mode-keymap (kbd "C-M-r") 'move-region-to-rebuts)
-
+;;;###autoload
 (define-minor-mode palimpsest-mode
   "Toggle palimpsest mode. 
 Interactively with no argument, this command toggles the mode.
 to show buffer size and position in mode-line.  You can customize
-this minor mode, see option `nyan-mode'.
+this minor mode, see option `palimpsest-mode'.
 
 Note: If you turn this mode on then you probably want to turn off
 option `scroll-bar-mode'."
@@ -103,7 +121,7 @@ option `scroll-bar-mode'."
   ;; The indicator for the mode line.
   :lighter " Palimpsest"
   ;; The minor mode bindings.
-  :keymap palimpsest-mode-keymap
+  :keymap palimpsest-keymap
   :global nil
   :group 'palimpsest)
 
