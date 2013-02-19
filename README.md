@@ -14,7 +14,7 @@ From Wikipedia:
  This minor mode for Emacs provides several strategies to remove text without permanently deleting it, useful to prose and fiction writers.
  Namely, it provides the following capabilities:
 
- - Send selected text to the bottom of the file
+ - Send selected text to the bottom of the file 
  - Send selected text to a trash file 
 
 ## Installation
@@ -32,3 +32,11 @@ If you want palimpsest to load automatically with your text files, andd the foll
     #elisp
 	(add-hook 'text-mode-hook 'palimpsest-mode)
 	
+## Usage
+
+C-c C-r: Send selected text to the bottom 
+C-c C-q: Send selected text to trash file
+
+## Configuration
+
+You will find configuration options in palimpsest's customization group, wich will allow you to change the default key bindings and the trash file suffix. 
