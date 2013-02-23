@@ -11,23 +11,26 @@ From Wikipedia:
 
 ## Purpose
 
- This minor mode for Emacs provides several strategies to remove text without permanently deleting it, useful to prose and fiction writers.
- Namely, it provides the following capabilities:
+This minor mode for Emacs provides several strategies to remove text without permanently deleting it. Namely, it provides the following capabilities:
 
  - Send selected text to the bottom of the file 
  - Send selected text to a trash file 
+
+Much like code, the process of writing text is a progression of revisions where content gets transformed and refined. During these iterations, it is often desirable to move text instead of deleting it: you may have written a sentence that doesn't belong in the paragraph you're editing right now, but it might very well fit somewhere else. Since you don't know where exactly, you'd like to put it out of the way, not discard it entirely. Palimpsest saves you from the traveling back and forth between your current position and the bottom of your document (or another *draft* or *trash*  document).
+
+Next time you're writing fiction, non-fiction, a journalistic piece or a blog post using Emacs, give palimpsest-mode a try. You might even try it while coding in a functional language, moving stuff around sprightly, aided by an orthogonal abstraction of the Read-Eval-Print loop. 
 
 ## Installation
 
 ### Installing with el-get
 
-Nothing to do. 
+Nothing to do (except declaring `palimpsest-mode` along with your packages).
 
 ### Installing manually
 
 Just put the palimpsest.el anywhere on your load path (or load the file manually). `M-x palimpsest-mode` will toggle it on or off.
 
-If you want palimpsest to load automatically with your text files, andd the following in your init file. 
+If you want palimpsest to load automatically when writing textual files, andd the following in your init file. 
 
 	 (add-hook 'text-mode-hook 'palimpsest-mode)
 	
@@ -38,4 +41,8 @@ If you want palimpsest to load automatically with your text files, andd the foll
 
 ## Configuration
 
-You will find configuration options in palimpsest's customization group, wich will allow you to change the default key bindings and the trash file suffix. 
+Configuration options are available in palimpsest's customization group, where you are given a chance to define alternate key bindings as well as your preferred suffix for the trash file. 
+
+P.S. [Follow][follow_me] me on Twitter.
+
+[follow_me]: https://twitter.com/intent/user?screen_name=danielszmu "Follow @danielszmu"
