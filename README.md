@@ -18,7 +18,7 @@ This minor mode for Emacs provides several strategies to remove text without per
 
 Much like code, the process of writing text is a progression of revisions where content gets transformed and refined. During these iterations, it is often desirable to move text instead of deleting it: you may have written a sentence that doesn't belong in the paragraph you're editing right now, but it might very well fit somewhere else. Since you don't know where exactly, you'd like to put it out of the way, not discard it entirely. Palimpsest saves you from the traveling back and forth between your current position and the bottom of your document (or another *draft* or *trash*  document).
 
-Next time you're writing fiction, non-fiction, a journalistic piece or a blog post using Emacs, give palimpsest-mode a try. You might even try it while coding in a functional language, moving stuff around sprightly, aided by an orthogonal abstraction of the Read-Eval-Print loop. 
+Next time you're writing fiction, non-fiction, a journalistic piece or a blog post using Emacs, give palimpsest-mode a try. You might even try it while coding in a functional language, moving stuff around sprightly, aided by an abstraction reminiscent of the Read-Eval-Print loop, yet completely orthogonal. 
 
 ## Installation
 
@@ -41,7 +41,7 @@ If you want palimpsest to load automatically when writing textual files, andd th
 
 ## Configuration
 
-Configuration options are available in palimpsest's customization group, where you are given a chance to define alternate key bindings as well as your preferred suffix for the trash file. 
+Configuration options are available in palimpsest's customization group, where you are given a chance to reassign key bindings as well as define your preferred suffix for the *trash* (or *draft*) file. 
 
 P.S. [Follow][follow_me] me on Twitter.
 
