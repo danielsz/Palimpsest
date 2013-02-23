@@ -68,23 +68,25 @@
 (defun move-region-to-trash (start end)
   "Move selected text to associated trash buffer"
   (interactive "r")
-  (if buffer-file-truename 
-      (let (
-	    (trash-file (concat (file-name-sans-extension (buffer-file-name)) palimpsest-trash-file-suffix  "." (file-name-extension (buffer-file-name))))
-	    (trash-buffer (concat (file-name-sans-extension (buffer-name)) palimpsest-trash-file-suffix "." (file-name-extension (buffer-file-name))))
-	    (oldbuf (current-buffer)))
-	(save-excursion
-	  (if (file-exists-p trash-file) (find-file trash-file))
-	  (set-buffer (get-buffer-create trash-buffer))
-	  (set-visited-file-name trash-file)
-	  (goto-char (point-min))
-	  (insert-buffer-substring oldbuf start end)
-	  (newline)
-	  (save-buffer)
-	  (write-file buffer-file-truename))	
-	(kill-region start end)
-	(switch-to-buffer oldbuf))
-    (message "Please save buffer first."))) 
+  (if (use-region-p) 
+      (if buffer-file-truename 
+	  (let (
+		(trash-file (concat (file-name-sans-extension (buffer-file-name)) palimpsest-trash-file-suffix  "." (file-name-extension (buffer-file-name))))
+		(trash-buffer (concat (file-name-sans-extension (buffer-name)) palimpsest-trash-file-suffix "." (file-name-extension (buffer-file-name))))
+		(oldbuf (current-buffer)))
+	    (save-excursion
+	      (if (file-exists-p trash-file) (find-file trash-file))
+	      (set-buffer (get-buffer-create trash-buffer))
+	      (set-visited-file-name trash-file)
+	      (goto-char (point-min))
+	      (insert-buffer-substring oldbuf start end)
+	      (newline)
+	      (save-buffer)
+	      (write-file buffer-file-truename))	
+	    (kill-region start end)
+	    (switch-to-buffer oldbuf))
+	(message "Please save buffer first."))
+    (message "No region selected")))
 
 ;; Custom move region to bottom 
 (defun move-region-to-bottom (start end)
