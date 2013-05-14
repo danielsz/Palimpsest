@@ -43,7 +43,8 @@
 ;;; Code:
 
 (defgroup palimpsest nil
-  "Customization group for `palimpsest-mode'.")
+  "Customization group for `palimpsest-mode'."
+	:group 'convenience)
 
 (defcustom palimpsest-bottom-key ""
   "Keybinding to send selected text to bottom of the file. Defaults to C-c C-r"
