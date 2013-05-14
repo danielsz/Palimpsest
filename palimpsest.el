@@ -122,5 +122,5 @@ option `scroll-bar-mode'."
   :global nil
   :group 'palimpsest)
 
-(provide 'palimpest-mode)
+(provide 'palimpsest-mode)
  ;;; palimpsest-mode.el ends here
