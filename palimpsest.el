@@ -1,4 +1,4 @@
-;;; palimpsest-mode.el --- Various deletion strategies when editing
+;;; palimpsest.el --- Various deletion strategies when editing
 ;;; text that should elude total oblivion. Implemented as a minor mode.
 
 ;; Copyright (C) 2013 Daniel Szmulewicz <http://about.me/daniel.szmulewicz>
@@ -123,4 +123,4 @@ option `scroll-bar-mode'."
   :group 'palimpsest)
 
 (provide 'palimpsest)
- ;;; palimpsest-mode.el ends here
+;;; palimpsest.el ends here
