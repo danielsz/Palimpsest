@@ -26,6 +26,14 @@ Next time you're writing fiction, non-fiction, a journalistic piece or a blog po
 
 Nothing to do (except declaring `palimpsest-mode` along with your packages).
 
+### Installing with ELPA
+
+Please make sure you have Marmalade in your package archives.
+
+    (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+	                         ("marmalade" . "http://marmalade-repo.org/packages/")
+							 ("melpa" . "http://melpa.milkbox.net/packages/")))
+													  
 ### Installing manually
 
 Just put the palimpsest.el anywhere on your load path (or load the file manually). `M-x palimpsest-mode` will toggle it on or off.
