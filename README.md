@@ -28,7 +28,7 @@ Nothing to do (except declaring `palimpsest-mode` along with your packages).
 
 ### Installing with ELPA
 
-Please make sure you have Marmalade in your package archives.
+Please make sure you have Marmalade or MELPA in your package archives.
 
     (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
 	                         ("marmalade" . "http://marmalade-repo.org/packages/")
