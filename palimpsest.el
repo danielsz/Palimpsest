@@ -5,7 +5,7 @@
 
 ;; Author: Daniel Szmulewicz <daniel.szmulewicz@gmail.com>
 
-;; Version: 0.8
+;; Version: 0.9
 
 ;;; Documentation:
 ;;
