@@ -63,10 +63,10 @@
 
 (defconst palimpsest-keymap (make-sparse-keymap) "Keymap used in palimpsest mode")
 
-(define-key palimpsest-keymap palimpsest-bottom-key 'move-region-to-bottom)
-(define-key palimpsest-keymap palimpsest-trash-key 'move-region-to-trash)
+(define-key palimpsest-keymap palimpsest-bottom-key 'palimpsest-move-region-to-bottom)
+(define-key palimpsest-keymap palimpsest-trash-key 'palimpsest-move-region-to-trash)
 
-(defun move-region-to-trash (start end)
+(defun palimpsest-move-region-to-trash (start end)
   "Move selected text to associated trash buffer"
   (interactive "r")
   (if (use-region-p) 
@@ -90,7 +90,7 @@
     (message "No region selected")))
 
 ;; Custom move region to bottom 
-(defun move-region-to-bottom (start end)
+(defun palimpsest-move-region-to-bottom (start end)
   "Move selected text to bottom of buffer"
   (interactive "r")
   (if (use-region-p) 
