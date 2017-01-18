@@ -89,19 +89,36 @@
 	(message "Please save buffer first."))
     (message "No region selected")))
 
-;; Custom move region to bottom 
+
+;;;;;;;;;;;;;;;;;
+;; Move region ;;
+;;;;;;;;;;;;;;;;;
+
+(defun palimpsest-move-region-to-destionation (start end text-destination)
+  "Move selected text to buffer's desired position "
+  (let ((count (count-words-region start end)))
+    (save-excursion
+      (kill-region start end)
+      (goto-char (text-destination))
+      (yank)
+      (newline))
+    (push-mark (point))
+    (message "Moved %s words" count))
+  )
+
+(defun palimpsest-move-region-to-top (start end)
+  "Move selected text to top of buffer"
+  (interactive "r")
+  (if (use-region-p)
+      (palimpsest-move-region-to-destionation start end 'point-min)
+    (message "No region selected")))
+
+;; Custom move region to bottom
 (defun palimpsest-move-region-to-bottom (start end)
   "Move selected text to bottom of buffer"
   (interactive "r")
-  (if (use-region-p) 
-      (let ((count (count-words-region start end)))
-	(save-excursion
-	  (kill-region start end)
-	  (goto-char (point-max))
-	  (yank)
-	  (newline))
-	(push-mark (point))
-	(message "Moved %s words" count))
+  (if (use-region-p)
+      (palimpsest-move-region-to-destionation start end 'point-max)
     (message "No region selected")))
 
 
