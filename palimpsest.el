@@ -51,7 +51,7 @@
   :group 'palimpsest
   :type '(restricted-sexp :match-alternatives (stringp vectorp)))
 
-(defcustom palimpsest-trash-key "" 
+(defcustom palimpsest-trash-key ""
   "Keybinding to send selected text to the trash. Defaults to C-c C-q"
   :group 'palimpsest
   :type '(restricted-sexp :match-alternatives (stringp vectorp)))
@@ -69,8 +69,8 @@
 (defun palimpsest-move-region-to-trash (start end)
   "Move selected text to associated trash buffer"
   (interactive "r")
-  (if (use-region-p) 
-      (if buffer-file-truename 
+  (if (use-region-p)
+      (if buffer-file-truename
 	  (let (
 		(trash-file (concat (file-name-sans-extension (buffer-file-name)) palimpsest-trash-file-suffix  "." (file-name-extension (buffer-file-name))))
 		(trash-buffer (concat (file-name-sans-extension (buffer-name)) palimpsest-trash-file-suffix "." (file-name-extension (buffer-file-name))))
@@ -83,7 +83,7 @@
 	      (insert-buffer-substring oldbuf start end)
 	      (newline)
 	      (save-buffer)
-	      (write-file buffer-file-truename))	
+	      (write-file buffer-file-truename))
 	    (kill-region start end)
 	    (switch-to-buffer oldbuf))
 	(message "Please save buffer first."))
@@ -124,7 +124,7 @@
 
 ;;;###autoload
 (define-minor-mode palimpsest-mode
-  "Toggle palimpsest mode. 
+  "Toggle palimpsest mode.
 Interactively with no argument, this command toggles the mode.
 to show buffer size and position in mode-line.  You can customize
 this minor mode, see option `palimpsest-mode'.
