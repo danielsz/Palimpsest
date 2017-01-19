@@ -44,8 +44,9 @@ If you want palimpsest to load automatically when writing textual files, andd th
 	
 ## Usage
 
-- C-c C-r: Send selected text to the bottom 
-- C-c C-q: Send selected text to trash file
+- `C-c C-r`: Send selected text to the bottom `(palimpsest-move-region-to-bottom)`
+- `not-defined`: Send selected text to the top `(palimpsest-move-region-to-top)`
+- `C-c C-q`: Send selected text to trash file `(palimpsest-move-region-to-trash)`
 
 ## Configuration
 
