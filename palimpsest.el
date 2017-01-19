@@ -99,7 +99,7 @@
   (let ((count (count-words-region start end)))
     (save-excursion
       (kill-region start end)
-      (goto-char (text-destination))
+      (goto-char (funcall text-destination))
       (yank)
       (newline))
     (push-mark (point))
