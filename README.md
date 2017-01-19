@@ -59,8 +59,8 @@ Keyboard shortcuts are provided:
 Configuration options are available in palimpsest's customization group.
 You are able to:
 
-- Reassign key bindings
-- Set default direction for moving text within the file (default is bottom)
+- Reassign key bindings.
+- Change the location where text is moved (default is bottom).
 - Define your preferred suffix for the *trash* (or *draft*) file.
 
 P.S. [Follow][follow_me] me on Twitter.
