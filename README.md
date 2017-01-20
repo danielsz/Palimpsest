@@ -51,7 +51,7 @@ If you want palimpsest to load automatically when writing textual files, andd th
 
 Keyboard shortcuts are provided:
 
-- C-c C-r: Send selected text to top or bottom (default) of file
+- C-c C-r: Send selected text to top or bottom of file
 - C-c C-q: Send selected text to trash file
 
 ## Configuration
