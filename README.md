@@ -63,6 +63,11 @@ You are able to:
 - Change the location where text is moved (default is bottom).
 - Define your preferred suffix for the *trash* (or *draft*) file.
 
+
+## Testing
+After installing [cask](https://github.com/cask/cask) run `$ make test` inside the project's root folder.
+
+
 P.S. [Follow][follow_me] me on Twitter.
 
 [follow_me]: https://twitter.com/intent/user?screen_name=danielszmu "Follow @danielszmu"
