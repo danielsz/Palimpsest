@@ -42,10 +42,10 @@
 
 ;;; Code:
 
-(defconst palimpsest-keymap (make-sparse-keymap) "Keymap used in palimpsest mode")
+(defconst palimpsest-keymap (make-sparse-keymap) "Keymap used in palimpsest mode.")
 
 (defun palimpsest-move-region-to-trash (start end)
-  "Move selected text to associated trash buffer"
+  "Move text between START and END to associated trash buffer."
   (interactive "r")
   (if (use-region-p)
       (if buffer-file-truename
@@ -73,7 +73,7 @@
 ;;;;;;;;;;;;;;;;;
 
 (defun palimpsest-move-region-to-dest (start end dest)
-  "Move selected text to buffer's desired position "
+  "Move text between START and END to buffer's desired position, otherwise known as DEST."
   (let ((count (count-words-region start end)))
     (save-excursion
       (kill-region start end)
@@ -84,7 +84,7 @@
     (message "Moved %s words" count)))
 
 (defun palimpsest-move-region-to-top (start end)
-  "Move selected text to top of buffer"
+  "Move text between START and END to top of buffer."
   (interactive "r")
   (if (use-region-p)
       (palimpsest-move-region-to-dest start end 'point-min)
@@ -92,7 +92,7 @@
 
 ;; Custom move region to bottom
 (defun palimpsest-move-region-to-bottom (start end)
-  "Move selected text to bottom of buffer"
+  "Move text between START and END to bottom of buffer."
   (interactive "r")
   (if (use-region-p)
       (palimpsest-move-region-to-dest start end 'point-max)
@@ -107,12 +107,12 @@
 	:group 'convenience)
 
 (defcustom palimpsest-dest-key ""
-  "Keybinding to send selected text somewhere else in the file (top or bottom). Defaults to C-c C-r"
+  "Keybinding to send selected text somewhere else in the file (top or bottom). Defaults to C-c C-r."
   :group 'palimpsest
   :type '(restricted-sexp :match-alternatives (stringp vectorp)))
 
 (defcustom palimpsest-default-dest-fn 'palimpsest-move-region-to-bottom
-  "Defines the default destination (top or bottom) to associate with the key binding defined in palimpsest-dest-key"
+  "Defines the default destination (top or bottom) to associate with the key binding defined in palimpsest-dest-key."
   :group 'palimpsest
   :initialize 'custom-initialize-default
   :set (lambda (symbol value)
@@ -121,12 +121,12 @@
 		 (const :tag "Bottom" palimpsest-move-region-to-bottom)))
 
 (defcustom palimpsest-trash-key ""
-  "Keybinding to send selected text to the trash. Defaults to C-c C-q"
+  "Keybinding to send selected text to the trash. Defaults to C-c C-q."
   :group 'palimpsest
   :type '(restricted-sexp :match-alternatives (stringp vectorp)))
 
 (defcustom palimpsest-trash-file-suffix ".trash"
-  "This is the suffix for the trash filename"
+  "This is the suffix for the trash filename."
   :group 'palimpsest
   :type '(string))
 
@@ -136,12 +136,8 @@
 ;;;###autoload
 (define-minor-mode palimpsest-mode
   "Toggle palimpsest mode.
-Interactively with no argument, this command toggles the mode.
-to show buffer size and position in mode-line.  You can customize
-this minor mode, see option `palimpsest-mode'.
-
-Note: If you turn this mode on then you probably want to turn off
-option `scroll-bar-mode'."
+Interactively with no argument, this command toggles the mode. You can customize
+this minor mode, see option `palimpsest-mode'."
   :init-value nil
   ;; The indicator for the mode line.
   :lighter " Palimpsest"
