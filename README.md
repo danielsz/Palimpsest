@@ -63,6 +63,12 @@ You are able to:
 - Change the location where text is moved (default is bottom).
 - Define your preferred suffix for the *trash* (or *draft*) file.
 
+A prefix can be added to each palimpsest snippet by setting
+=palimpsest-prefix=. For example, to prefix each snippet with a dash, the
+following could be added to your configuration:
+
+	 (setq 'palimpsest-prefix "- ")
+
 P.S. [Follow][follow_me] me on Twitter.
 
 [follow_me]: https://twitter.com/intent/user?screen_name=danielszmu "Follow @danielszmu"

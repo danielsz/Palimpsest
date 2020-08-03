@@ -44,6 +44,8 @@
 
 (defconst palimpsest-keymap (make-sparse-keymap) "Keymap used in palimpsest mode.")
 
+(defvar palimpsest-prefix "")
+
 (defun palimpsest-move-region-to-trash (start end)
   "Move text between START and END to associated trash buffer."
   (interactive "r")
@@ -78,6 +80,7 @@
     (save-excursion
       (kill-region start end)
       (goto-char (funcall dest))
+      (insert palimpsest-prefix)
       (yank)
       (newline))
     (push-mark (point))
