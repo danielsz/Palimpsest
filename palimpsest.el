@@ -44,8 +44,6 @@
 
 (defconst palimpsest-keymap (make-sparse-keymap) "Keymap used in palimpsest mode.")
 
-(defvar palimpsest-prefix "")
-
 (defun palimpsest-move-region-to-trash (start end)
   "Move text between START and END to associated trash buffer."
   (interactive "r")
@@ -130,6 +128,11 @@
 
 (defcustom palimpsest-trash-file-suffix ".trash"
   "This is the suffix for the trash filename."
+  :group 'palimpsest
+  :type '(string))
+
+(defcustom palimpsest-prefix ""
+  "Prefix the yanked text snippet with a customizable string."
   :group 'palimpsest
   :type '(string))
 
