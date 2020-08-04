@@ -13,11 +13,11 @@ From Wikipedia:
 
 This minor mode for Emacs provides several strategies to remove text without permanently deleting it. Namely, it provides the following capabilities:
 
- - Send selected text to the bottom of the file 
- - Send selected text to the top of the file
+ - Send selected text to the bottom of the buffer
+ - Send selected text to the top of the buffer
  - Send selected text to a trash file 
 
-Much like code, the process of writing text is a progression of revisions where content gets transformed and refined. During these iterations, it is often desirable to move text instead of deleting it: you may have written a sentence that doesn't belong in the paragraph you're editing right now, but it might very well fit somewhere else. Since you don't know where exactly, you'd like to put it out of the way, not discard it entirely. Palimpsest saves you from the traveling back and forth between your current position and the bottom of your document (or another *draft* or *trash*  document).
+Much like code, the process of writing text is a progression of revisions where content gets transformed and refined. During these iterations, it is often desirable to move text instead of deleting it: you may have written a sentence that doesn't belong in the paragraph you're editing right now, but it might fit somewhere else. Since you don't know where exactly, you'd like to put it out of the way, not discard it entirely. Palimpsest saves you from the traveling back and forth between your current position and the bottom of your document (or another *draft* or *trash*  document).
 
 Next time you're writing fiction, non-fiction, a journalistic piece or a blog post using Emacs, give palimpsest-mode a try. You might even try it while coding in a functional language, moving stuff around sprightly, aided by an abstraction reminiscent of the Read-Eval-Print loop, yet completely orthogonal. 
 
@@ -51,7 +51,8 @@ If you want palimpsest to load automatically when writing textual files, andd th
 
 Keyboard shortcuts are provided:
 
-- C-c C-r: Send selected text to top or bottom of file
+- C-c C-r: Send selected text to bottom of buffer
+- C-c C-s: Send selected text to top of buffer
 - C-c C-q: Send selected text to trash file
 
 ## Configuration
@@ -60,7 +61,6 @@ Configuration options are available in palimpsest's customization group.
 You are able to:
 
 - Reassign key bindings.
-- Change the location where text is moved (default is bottom).
 - Define your preferred suffix for the *trash* (or *draft*) file.
 - Define a string or character prefix that will gets inserted alongside the text you're moving.
 

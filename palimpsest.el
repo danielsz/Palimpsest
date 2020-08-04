@@ -5,7 +5,7 @@
 
 ;; Author: Daniel Szmulewicz <daniel.szmulewicz@gmail.com>
 
-;; Version: 1.0
+;; Version: 1.1
 
 ;;; Documentation:
 ;;
@@ -42,31 +42,49 @@
 
 ;;; Code:
 
+;;;;;;;;;;;;;;;;;;;
+;; Customization ;;
+;;;;;;;;;;;;;;;;;;;
+
 (defconst palimpsest-keymap (make-sparse-keymap) "Keymap used in palimpsest mode.")
 
-(defun palimpsest-move-region-to-trash (start end)
-  "Move text between START and END to associated trash buffer."
-  (interactive "r")
-  (if (use-region-p)
-      (if buffer-file-truename
-	  (let (
-		(trash-file (concat (file-name-sans-extension (buffer-file-name)) palimpsest-trash-file-suffix  "." (file-name-extension (buffer-file-name))))
-		(trash-buffer (concat (file-name-sans-extension (buffer-name)) palimpsest-trash-file-suffix "." (file-name-extension (buffer-file-name))))
-		(oldbuf (current-buffer)))
-	    (save-excursion
-	      (if (file-exists-p trash-file) (find-file trash-file))
-	      (set-buffer (get-buffer-create trash-buffer))
-	      (set-visited-file-name trash-file)
-	      (goto-char (point-min))
-	      (insert-buffer-substring oldbuf start end)
-	      (newline)
-	      (save-buffer)
-	      (write-file buffer-file-truename))
-	    (kill-region start end)
-	    (switch-to-buffer oldbuf))
-	(message "Please save buffer first."))
-    (message "No region selected")))
+(defgroup palimpsest nil
+  "Customization group for `palimpsest-mode'."
+	:group 'convenience)
 
+(defcustom palimpsest-send-bottom "C-c C-r"
+  "Keybinding to send selected text to the bottom of the current buffer.  Defaults to \\<palimpsest-keymap> \\[palimpsest-move-region-to-bottom]."
+  :group 'palimpsest
+  :set (lambda (symbol value)
+         (custom-set-default symbol value)
+         (define-key palimpsest-keymap (kbd palimpsest-send-bottom) 'palimpsest-move-region-to-bottom))
+  :type 'string)
+
+(defcustom palimpsest-send-top "C-c C-s"
+  "Keybinding to send selected text to the top of the current buffer.  Defaults to \\<palimpsest-keymap> \\[palimpsest-move-region-to-top]."
+  :group 'palimpsest
+  :set (lambda (symbol value)
+         (custom-set-default symbol value)
+         (define-key palimpsest-keymap (kbd palimpsest-send-top) 'palimpsest-move-region-to-top))
+  :type 'string)
+
+(defcustom palimpsest-trash-key "C-c C-q"
+  "Keybinding to send selected text to the trash.  Defaults to \\<palimpsest-keymap> \\[palimpsest-move-region-to-trash]."
+  :group 'palimpsest
+  :set (lambda (symbol value)
+         (custom-set-default symbol value)
+         (define-key palimpsest-keymap (kbd palimpsest-trash-key) 'palimpsest-move-region-to-trash))
+  :type 'string)
+
+(defcustom palimpsest-trash-file-suffix ".trash"
+  "This is the suffix for the trash filename."
+  :group 'palimpsest
+  :type 'string)
+
+(defcustom palimpsest-prefix ""
+  "Prefix the yanked text snippet with a customizable string."
+  :group 'palimpsest
+  :type '(choice (string :tag "Prefix as string") (character :tag "Prefix as character")))
 
 ;;;;;;;;;;;;;;;;;
 ;; Move region ;;
@@ -99,45 +117,28 @@
       (palimpsest-move-region-to-dest start end 'point-max)
     (message "No region selected")))
 
-;;;;;;;;;;;;;;;;;;;
-;; Customization ;;
-;;;;;;;;;;;;;;;;;;;
-
-(defgroup palimpsest nil
-  "Customization group for `palimpsest-mode'."
-	:group 'convenience)
-
-(defcustom palimpsest-dest-key ""
-  "Keybinding to send selected text somewhere else in the file (top or bottom). Defaults to C-c C-r."
-  :group 'palimpsest
-  :type '(restricted-sexp :match-alternatives (stringp vectorp)))
-
-(defcustom palimpsest-default-dest-fn 'palimpsest-move-region-to-bottom
-  "Defines the default destination (top or bottom) to associate with the key binding defined in palimpsest-dest-key."
-  :group 'palimpsest
-  :initialize 'custom-initialize-default
-  :set (lambda (symbol value)
-         (define-key palimpsest-keymap palimpsest-dest-key value))
-  :type '(choice (const :tag "Top" palimpsest-move-region-to-top)
-		 (const :tag "Bottom" palimpsest-move-region-to-bottom)))
-
-(defcustom palimpsest-trash-key ""
-  "Keybinding to send selected text to the trash. Defaults to C-c C-q."
-  :group 'palimpsest
-  :type '(restricted-sexp :match-alternatives (stringp vectorp)))
-
-(defcustom palimpsest-trash-file-suffix ".trash"
-  "This is the suffix for the trash filename."
-  :group 'palimpsest
-  :type 'string)
-
-(defcustom palimpsest-prefix ""
-  "Prefix the yanked text snippet with a customizable string."
-  :group 'palimpsest
-  :type '(choice (string :tag "Prefix as string") (character :tag "Prefix as character")))
-
-(define-key palimpsest-keymap palimpsest-dest-key palimpsest-default-dest-fn)
-(define-key palimpsest-keymap palimpsest-trash-key 'palimpsest-move-region-to-trash)
+(defun palimpsest-move-region-to-trash (start end)
+  "Move text between START and END to associated trash buffer."
+  (interactive "r")
+  (if (use-region-p)
+      (if buffer-file-truename
+	  (let* ((trash-buffer (concat (file-name-sans-extension (buffer-name)) palimpsest-trash-file-suffix "." (file-name-extension (buffer-file-name))))
+		 (trash-file (expand-file-name trash-buffer))
+		 (oldbuf (current-buffer)))
+	    (save-excursion
+	      (if (file-exists-p trash-file) (find-file trash-file))
+	      (set-buffer (get-buffer-create trash-buffer))
+	      (set-visited-file-name trash-file)
+	      (goto-char (point-min))
+	      (insert palimpsest-prefix)
+	      (insert-buffer-substring oldbuf start end)
+	      (newline)
+	      (save-buffer)
+	      (write-file buffer-file-truename))
+	    (kill-region start end)
+	    (switch-to-buffer oldbuf))
+	(message "Please save buffer first."))
+    (message "No region selected")))
 
 ;;;###autoload
 (define-minor-mode palimpsest-mode
