@@ -129,12 +129,12 @@
 (defcustom palimpsest-trash-file-suffix ".trash"
   "This is the suffix for the trash filename."
   :group 'palimpsest
-  :type '(string))
+  :type 'string)
 
 (defcustom palimpsest-prefix ""
   "Prefix the yanked text snippet with a customizable string."
   :group 'palimpsest
-  :type '(string))
+  :type '(choice (string :tag "Prefix as string") (character :tag "Prefix as character")))
 
 (define-key palimpsest-keymap palimpsest-dest-key palimpsest-default-dest-fn)
 (define-key palimpsest-keymap palimpsest-trash-key 'palimpsest-move-region-to-trash)
