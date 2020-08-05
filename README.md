@@ -31,8 +31,7 @@ Nothing to do (except declaring `palimpsest-mode` along with your packages).
 
 Please make sure you have MELPA in your package archives.
 
-    (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-							 ("melpa" . "http://melpa.milkbox.net/packages/")))
+    ("melpa" . "http://melpa.milkbox.net/packages/")))
 													  
 ### Installing manually
 
