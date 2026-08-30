@@ -37,7 +37,7 @@ Please make sure you have MELPA in your package archives.
 
 Just put the palimpsest.el anywhere on your load path (or load the file manually). `M-x palimpsest-mode` will toggle it on or off.
 
-If you want palimpsest to load automatically when writing textual files, andd the following in your init file. 
+If you want palimpsest to load automatically when writing textual files, and the following in your init file. 
 
 	 (add-hook 'text-mode-hook 'palimpsest-mode)
 	
