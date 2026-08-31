@@ -1,11 +1,11 @@
-;;; palimpsest.el --- Various deletion strategies when editing
+;;; palimpsest.el --- Various deletion strategies when editing -*- lexical-binding: t; -*-
 ;;; text that should elude total oblivion. Implemented as a minor mode.
 
 ;; Copyright (C) 2013 Daniel Szmulewicz <http://about.me/daniel.szmulewicz>
 
 ;; Author: Daniel Szmulewicz <daniel.szmulewicz@gmail.com>
 
-;; Version: 1.1
+;; Version: 1.2
 
 ;;; Documentation:
 ;;
@@ -53,28 +53,31 @@
   "Customization group for `palimpsest-mode'."
 	:group 'convenience)
 
+(defun palimpsest--make-key-setter (command)
+  "Keybinding setter.  Return a Customize :set function that binds COMMAND to the new key in `palimpsest-keymap', unbinding the previous key first.  COMMAND should be a symbol naming an interactive function."
+  (lambda (symbol value)
+    (let ((old (and (boundp symbol) (symbol-value symbol))))
+      (custom-set-default symbol value)
+      (when (and old (not (equal old value)))
+        (define-key palimpsest-keymap (kbd old) nil))
+      (define-key palimpsest-keymap (kbd value) command))))
+
 (defcustom palimpsest-send-bottom "C-c C-r"
-  "Keybinding to send selected text to the bottom of the current buffer.  Defaults to \\<palimpsest-keymap> \\[palimpsest-move-region-to-bottom]."
+  "Keybinding to send selected text to the bottom of the current buffer."
   :group 'palimpsest
-  :set (lambda (symbol value)
-         (custom-set-default symbol value)
-         (define-key palimpsest-keymap (kbd palimpsest-send-bottom) 'palimpsest-move-region-to-bottom))
+  :set (palimpsest--make-key-setter 'palimpsest-move-region-to-bottom)
   :type 'string)
 
 (defcustom palimpsest-send-top "C-c C-s"
-  "Keybinding to send selected text to the top of the current buffer.  Defaults to \\<palimpsest-keymap> \\[palimpsest-move-region-to-top]."
+  "Keybinding to send selected text to the top of the current buffer."
   :group 'palimpsest
-  :set (lambda (symbol value)
-         (custom-set-default symbol value)
-         (define-key palimpsest-keymap (kbd palimpsest-send-top) 'palimpsest-move-region-to-top))
+  :set (palimpsest--make-key-setter 'palimpsest-move-region-to-top)
   :type 'string)
 
 (defcustom palimpsest-trash-key "C-c C-q"
-  "Keybinding to send selected text to the trash.  Defaults to \\<palimpsest-keymap> \\[palimpsest-move-region-to-trash]."
+  "Keybinding to send selected text to the trash."
   :group 'palimpsest
-  :set (lambda (symbol value)
-         (custom-set-default symbol value)
-         (define-key palimpsest-keymap (kbd palimpsest-trash-key) 'palimpsest-move-region-to-trash))
+  :set (palimpsest--make-key-setter 'palimpsest-move-region-to-trash)
   :type 'string)
 
 (defcustom palimpsest-trash-file-suffix ".trash"
@@ -134,8 +137,7 @@
 	      (insert palimpsest-prefix)
 	      (insert-buffer-substring oldbuf start end)
 	      (newline)
-	      (save-buffer)
-	      (write-file buffer-file-truename))
+	      (save-buffer))
 	    (kill-region start end)
 	    (switch-to-buffer oldbuf))
 	(message "Please save buffer first."))
@@ -144,7 +146,7 @@
 ;;;###autoload
 (define-minor-mode palimpsest-mode
   "Toggle palimpsest mode.
-Interactively with no argument, this command toggles the mode. You can customize
+Interactively with no argument, this command toggles the mode.  You can customize
 this minor mode, see option `palimpsest-mode'."
   :init-value nil
   ;; The indicator for the mode line.
