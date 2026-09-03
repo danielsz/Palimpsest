@@ -126,7 +126,8 @@
   (interactive "r")
   (if (use-region-p)
       (if buffer-file-truename
-	  (let* ((trash-buffer (concat (file-name-sans-extension (buffer-name)) palimpsest-trash-file-suffix "." (file-name-extension (buffer-file-name))))
+	  (let* ((ext (file-name-extension (buffer-file-name)))
+		 (trash-buffer (concat (file-name-sans-extension (buffer-name)) palimpsest-trash-file-suffix (and ext (concat "." ext))))
 		 (trash-file (expand-file-name trash-buffer))
 		 (oldbuf (current-buffer)))
 	    (save-excursion
