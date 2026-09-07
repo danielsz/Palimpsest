@@ -5,7 +5,7 @@
 
 ;; Author: Daniel Szmulewicz <daniel.szmulewicz@gmail.com>
 
-;; Version: 1.2
+;; Version: 1.3
 
 ;;; Documentation:
 ;;
@@ -127,13 +127,9 @@
   (if (use-region-p)
       (if buffer-file-truename
 	  (let* ((ext (file-name-extension (buffer-file-name)))
-		 (trash-buffer (concat (file-name-sans-extension (buffer-name)) palimpsest-trash-file-suffix (and ext (concat "." ext))))
-		 (trash-file (expand-file-name trash-buffer))
+		 (trash-file (concat (file-name-sans-extension buffer-file-truename) palimpsest-trash-file-suffix (and ext (concat "." ext))))
 		 (oldbuf (current-buffer)))
-	    (save-excursion
-	      (if (file-exists-p trash-file) (find-file trash-file))
-	      (set-buffer (get-buffer-create trash-buffer))
-	      (set-visited-file-name trash-file)
+	    (with-current-buffer (find-file-noselect trash-file)
 	      (goto-char (point-min))
 	      (insert palimpsest-prefix)
 	      (insert-buffer-substring oldbuf start end)
